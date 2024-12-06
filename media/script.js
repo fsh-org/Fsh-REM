@@ -5,6 +5,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
+map.setMaxBounds(L.latLngBounds(L.latLng(-85, -Infinity), L.latLng(85, Infinity)));
+
 function timeToColor(time) {
   let age = (Date.now() - time) / (1000 * 60 * 30);
   return `hsl(${age}, 75%, 50%)`;
@@ -13,12 +15,13 @@ function timeToColor(time) {
 let geoLayer;
 let geoData;
 function refreshEarthquakes() {
-  if (geoLayer) map.removeLayer(geoLayer);
   fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson')
     .then(res=>res.json())
     .then(res=>{
       geoData = res;
       document.getElementById('title').innerText = res.metadata.title;
+      document.getElementById('list').innerHTML = res.features.map(e=>`<div>${Math.floor(e.properties.mag*100)/100}<span><p>${e.properties.title}</p><p>${new Date(e.properties.time).toLocaleString()}</p></span></div>`).join('');
+      if (geoLayer) map.removeLayer(geoLayer);
       geoLayer = L.geoJSON(res, {
         pointToLayer: function (feature, latlng) {
           return L.circleMarker(latlng, {
@@ -31,12 +34,9 @@ function refreshEarthquakes() {
           });
         },
         onEachFeature: function (feature, layer) {
-            // Add popups with earthquake details
-            layer.bindPopup(`
-                <strong>${feature.properties.title}</strong><br>
-                Magnitude: ${feature.properties.mag}<br>
-                Time: ${new Date(feature.properties.time).toLocaleString()}
-            `);
+          layer.bindPopup(`<strong>${feature.properties.title}</strong><br>
+Magnitude: ${Math.floor(feature.properties.mag*100)/100}<br>
+Time: ${new Date(feature.properties.time).toLocaleString()}`);
         }
       }).addTo(map);
     })
