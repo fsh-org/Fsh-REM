@@ -15,10 +15,21 @@ nav img {
   height: 4dvh;
 }
 
-#map {
+main {
   width: 100vw;
   width: 100dvw;
   height: 95vh;
   height: 95dvh;
+  box-sizing: border-box;
+}
+side {
+  width: 15vw;
+  width: 15dvw;
+  height: 100%;
+  box-sizing: border-box;
+}
+#map {
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
 }
