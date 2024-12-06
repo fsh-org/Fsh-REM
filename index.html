@@ -19,11 +19,13 @@
   <body>
     <nav>
       <img src="https://fsh.plus/fsh.png">
-      <p>Fsh REM</p>
+      <h1>Fsh REM</h1>
+      <span stlye="flex:1"></span>
+      <button onclick="refreshEarthquakes()">ReFetch</button>
     </nav>
     <main>
       <side>
-        <h1>Last 2.5 days of earthquakes</h1>
+        <h2 id="title">Mag 2.5+ last day of earthquakes</h2>
       </side>
       <div id="map"></div>
     </main>

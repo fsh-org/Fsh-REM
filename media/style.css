@@ -14,8 +14,13 @@ nav img {
   height: 4vh;
   height: 4dvh;
 }
+nav h1 {
+  font-size: 125%;
+  font-weight: normal;
+}
 
 main {
+  display: flex;
   width: 100vw;
   width: 100dvw;
   height: 95vh;
@@ -23,8 +28,8 @@ main {
   box-sizing: border-box;
 }
 side {
-  width: 15vw;
-  width: 15dvw;
+  width: 20vw;
+  width: 20dvw;
   height: 100%;
   box-sizing: border-box;
 }
