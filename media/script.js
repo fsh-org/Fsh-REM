@@ -1,8 +1,28 @@
 // Create map
-let map = L.map('map').setView([0, 0], 2);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+let standard = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap contributors'
+});
+let topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+  attribution: 'Kartendaten: © OpenStreetMap-Mitwirkende, SRTM | Kartendarstellung: © OpenTopoMap (CC-BY-SA)'
+})
+let darkMode = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© OpenStreetMap contributors, © CARTO'
+});
+let satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  attribution: 'Tiles © Esri — Source: Esri, DeLorme, NAVTEQ'
+});
+
+let map = L.map('map', {
+  layers: [standard],
+  minZoom: 2,
+  maxZoom: 18
+}).setView([0, 0], 2);
+
+L.control.layers({
+  "Standard": standard,
+  "Topology": topo,
+  "Dark Mode": darkMode,
+  "Satellite": satellite
 }).addTo(map);
 
 map.setMaxBounds(L.latLngBounds(L.latLng(-85, -Infinity), L.latLng(85, Infinity)));
@@ -20,7 +40,13 @@ function refreshEarthquakes() {
     .then(res=>{
       geoData = res;
       document.getElementById('title').innerText = res.metadata.title;
-      document.getElementById('list').innerHTML = res.features.map(e=>`<div>${Math.floor(e.properties.mag*100)/100}<span><p>${e.properties.title}</p><p>${new Date(e.properties.time).toLocaleString()}</p></span></div>`).join('');
+      document.getElementById('list').innerHTML = res.features.map(e=>`<div onclick="map.setView([${e.geometry.coordinates[1]}, ${e.geometry.coordinates[0]}], 10)">
+  ${Math.floor(e.properties.mag*100)/100}
+  <span>
+    <p>${e.properties.title}</p>
+    <p>${new Date(e.properties.time).toLocaleString()}</p>
+  </span>
+</div>`).join('');
       if (geoLayer) map.removeLayer(geoLayer);
       geoLayer = L.geoJSON(res, {
         pointToLayer: function (feature, latlng) {
