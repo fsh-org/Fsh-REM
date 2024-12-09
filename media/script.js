@@ -44,6 +44,9 @@ document.getElementById('map').insertAdjacentHTML('beforeend', `<button class="s
 
 function timeToColor(time) {
   let age = (Date.now() - time) / (1000 * 60 * 30);
+  if (age>50) {
+    age = ((age-50)/2)+50;
+  }
   return `hsl(${age}, 75%, 50%)`;
 }
 
@@ -55,6 +58,7 @@ function refreshEarthquakes() {
     .then(res=>{
       geoData = res;
       document.getElementById('title').innerText = res.metadata.title;
+      document.getElementById('count').innerText = res.features.length;
       document.getElementById('list').innerHTML = res.features.map(e=>`<div onclick="map.setView([${e.geometry.coordinates[1]}, ${e.geometry.coordinates[0]}], 10)">
   ${Math.floor(e.properties.mag*100)/100}
   <span>
@@ -77,6 +81,7 @@ function refreshEarthquakes() {
         onEachFeature: function (feature, layer) {
           layer.bindPopup(`<strong>${feature.properties.title}</strong><br>
 Magnitude: ${Math.floor(feature.properties.mag*100)/100}<br>
+Type: ${feature.properties.type}<br>
 Time: ${new Date(feature.properties.time).toLocaleString()}`);
         }
       }).addTo(map);
