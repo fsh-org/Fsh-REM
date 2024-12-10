@@ -55,6 +55,9 @@ function timeToColor(time) {
   if (age>75) {
     age = ((age-75)/2)+75;
   }
+  if (age>100) {
+    age = ((age-100)/2)+100;
+  }
   return `hsl(${age}, 75%, 50%)`;
 }
 
