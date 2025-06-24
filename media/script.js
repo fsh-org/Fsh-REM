@@ -81,7 +81,7 @@ function refreshEarthquakes() {
       geoLayer = L.geoJSON(res, {
         pointToLayer: function (feature, latlng) {
           return L.circleMarker(latlng, {
-            radius: feature.properties.mag * 2,
+            radius: Math.max(Math.abs(feature.properties.mag), 0.1) * 2,
             color: "#000",
             weight: 1,
             opacity: 1,
