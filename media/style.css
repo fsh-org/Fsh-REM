@@ -49,6 +49,12 @@ side {
   height: 100%;
   box-sizing: border-box;
 }
+.leaflet-pane > svg {
+  transition: none;
+}
+.leaflet-control-attribution .leaflet-attribution-flag {
+  display: none !important;
+}
 
 .settings {
   position: absolute;
@@ -63,8 +69,4 @@ side {
   left: 1dvw;
   margin: 0;
   z-index: 99999;
-}
-
-.leaflet-control-attribution .leaflet-attribution-flag {
-  display: none !important;
 }
