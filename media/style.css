@@ -64,3 +64,7 @@ side {
   margin: 0;
   z-index: 99999;
 }
+
+.leaflet-control-attribution .leaflet-attribution-flag {
+  display: none !important;
+}

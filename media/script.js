@@ -45,19 +45,13 @@ document.getElementById('map').insertAdjacentHTML('beforeend', `<button class="s
     <option value="2.5_month">Mag 2.5+ Month</option>
     <option value="all_month">All Month</option>
   </select></label>
-</dialog>`)
+</dialog>`);
 
 function timeToColor(time) {
   let age = (Date.now() - time) / (1000 * 60 * 30);
-  if (age>50) {
-    age = ((age-50)/2)+50;
-  }
-  if (age>75) {
-    age = ((age-75)/2)+75;
-  }
-  if (age>100) {
-    age = ((age-100)/2)+100;
-  }
+  if (age>50) age = ((age-50)/2)+50;
+  if (age>75) age = ((age-75)/2)+75;
+  if (age>100) age = ((age-100)/2)+100;
   return `hsl(${age}, 75%, 50%)`;
 }
 
@@ -96,9 +90,9 @@ Type: ${feature.properties.type}<br>
 Time: ${new Date(feature.properties.time).toLocaleString()}`);
         }
       }).addTo(map);
-    })
+    });
 }
 
-refreshEarthquakes()
+refreshEarthquakes();
 setInterval(refreshEarthquakes, 2 * 60 * 1000);
 document.getElementById('range').onchange = refreshEarthquakes;
