@@ -17,7 +17,7 @@ let map = L.map('map', {
   minZoom: 2,
   maxZoom: 18,
   maxBounds: [[-90, -190], [90, 190]],
-  maxBoundsViscosity: 1.0
+  maxBoundsViscosity: 0.75
 }).setView([0, 0], 2);
 
 L.control.layers({
@@ -95,5 +95,4 @@ Time: ${new Date(feature.properties.time).toLocaleString()}`);
 
 refreshEarthquakes();
 setInterval(refreshEarthquakes, 2 * 60 * 1000);
-
 document.getElementById('range').onchange = refreshEarthquakes;
